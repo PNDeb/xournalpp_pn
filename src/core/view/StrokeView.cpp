@@ -99,6 +99,7 @@ void StrokeView::draw(const Context& ctx) const {
 
         // Get a context to draw on our mask
         cr = cairo_create(surfMask);
+        cairo_pattern_set_filter(cairo_get_source(cr), CAIRO_FILTER_NEAREST);
 
 #ifdef DEBUG_SHOW_MASK
         cairo_set_source_rgba(cr, 1, 1, 1, 0.3);
@@ -108,6 +109,7 @@ void StrokeView::draw(const Context& ctx) const {
 
     cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
     cairo_set_line_cap(cr, CAIRO_LINE_CAP[s->getStrokeCapStyle()]);
+    cairo_set_antialias(cr, CAIRO_ANTIALIAS_NONE);
 
     if (auto fill = s->getFill(); fill != -1) {
         /**
@@ -194,7 +196,11 @@ void StrokeView::draw(const Context& ctx) const {
 
         Util::cairo_set_source_rgbi(ctx.cr, s->getColor(), groupAlpha);
 
-        cairo_mask_surface(ctx.cr, surfMask, 0, 0);
+        // cairo_mask_surface(ctx.cr, surfMask, 0, 0);
+        cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surfMask);
+        cairo_pattern_set_filter(pattern, CAIRO_FILTER_NEAREST);
+        cairo_mask(cr, pattern);
+        cairo_pattern_destroy(pattern);
 
         cairo_destroy(cr);
         cr = nullptr;

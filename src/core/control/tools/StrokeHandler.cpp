@@ -67,7 +67,11 @@ void StrokeHandler::draw(cairo_t* cr) {
 
     if (this->mask) {
         setColorAndBlendMode();
-        cairo_mask_surface(cr, mask->surf, 0, 0);
+        cairo_pattern_t *pattern = cairo_pattern_create_for_surface(mask->surf);
+        cairo_pattern_set_filter(pattern, CAIRO_FILTER_NEAREST);
+        cairo_mask(cr, pattern);
+        cairo_pattern_destroy(pattern);
+        g_warning("StrokeHandler::draw mask");
     } else {
         if (this->stroke->getPointCount() == 1) {
             // drawStroke does not handle single dots
@@ -373,6 +377,7 @@ void StrokeHandler::onButtonDoublePressEvent(const PositionInputData&, double) {
 }
 
 void StrokeHandler::paintDot(cairo_t* cr, const double x, const double y, const double width) const {
+    cairo_set_antialias(cr, CAIRO_ANTIALIAS_NONE);
     cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
     cairo_set_line_width(cr, width);
     cairo_move_to(cr, x, y);
@@ -384,6 +389,7 @@ StrokeHandler::Mask::Mask(int width, int height) {
     surf = cairo_image_surface_create(CAIRO_FORMAT_A8, width, height);
     cr = cairo_create(surf);
     cairo_set_source_rgba(cr, 1, 1, 1, 1);
+    cairo_set_antialias(cr, CAIRO_ANTIALIAS_NONE);
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
 }
 
@@ -409,4 +415,5 @@ void StrokeHandler::createMask() {
     cairo_surface_set_device_offset(mask->surf, std::round((0.5 * strokeWidth - visibleRect->x) * ratio),
                                     std::round((0.5 * strokeWidth - visibleRect->y) * ratio));
     cairo_surface_set_device_scale(mask->surf, ratio, ratio);
+    cairo_pattern_set_filter(cairo_get_source(mask->cr), CAIRO_FILTER_NEAREST);
 }
