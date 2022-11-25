@@ -61,6 +61,13 @@ void PenInputHandler::handleScrollEvent(InputEvent const& event) {
     }
 
     if (this->scrollOffsetX == 0 && this->scrollOffsetY == 0) {
+		// only emit scroll events for minimum offsets
+		if (
+			(std::abs(this->scrollStartX - event.absoluteX) < 60) &&
+		    (std::abs(this->scrollStartY - event.absoluteY) < 60)
+		   )
+			return;
+
         this->scrollOffsetX = this->scrollStartX - event.absoluteX;
         this->scrollOffsetY = this->scrollStartY - event.absoluteY;
 
@@ -79,6 +86,7 @@ void PenInputHandler::handleScrollEvent(InputEvent const& event) {
 }
 
 auto PenInputHandler::actionStart(InputEvent const& event) -> bool {
+	this->need_refresh = false;
     this->inputContext->focusWidget();
 
     XojPageView* currentPage = this->getPageAtCurrentPosition(event);
@@ -235,6 +243,7 @@ auto PenInputHandler::actionMotion(InputEvent const& event) -> bool {
 
     if (toolHandler->getToolType() == TOOL_HAND) {
         if (this->deviceClassPressed) {
+			this->need_refresh = true;
             this->handleScrollEvent(event);
             return true;
         }
@@ -328,6 +337,20 @@ auto PenInputHandler::actionMotion(InputEvent const& event) -> bool {
 }
 
 auto PenInputHandler::actionEnd(InputEvent const& event) -> bool {
+	if(this->need_refresh){
+		GError *error = NULL;
+		g_subprocess_new(
+			G_SUBPROCESS_FLAGS_NONE,
+			&error,
+			"dbus-send",
+			"--system",
+			"--print-reply",
+			"--dest=org.pinenote.ebc",
+			"/ebc",
+			"org.pinenote.ebc.TriggerGlobalRefresh",
+			NULL
+		);
+	}
     GtkXournal* xournal = inputContext->getXournal();
     XournalppCursor* cursor = xournal->view->getCursor();
     ToolHandler* toolHandler = inputContext->getToolHandler();

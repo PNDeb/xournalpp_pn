@@ -9,6 +9,9 @@
 #include "control/Control.h"                        // for Control
 #include "control/settings/Settings.h"              // for Settings
 #include "control/zoom/ZoomControl.h"               // for ZoomControl
+													//
+#include <glib.h>     // for g_subprocess_new
+
 #include "gui/Layout.h"                             // for Layout
 #include "gui/MainWindow.h"                         // for MainWindow
 #include "gui/XournalView.h"                        // for XournalView
@@ -80,6 +83,19 @@ auto TouchInputHandler::handleImpl(InputEvent const& event) -> bool {
         } else {
             this->secondarySequence = nullptr;
         }
+			GError *error = NULL;
+               g_subprocess_new(
+				   G_SUBPROCESS_FLAGS_NONE,
+				   &error,
+				   "dbus-send",
+				   "--system",
+					"--print-reply",
+                   "--dest=org.pinenote.ebc",
+                  	"/ebc",
+                 	"org.pinenote.ebc.TriggerGlobalRefresh",
+                    NULL
+               );
+
     }
 
     return false;

@@ -72,6 +72,11 @@ protected:
      */
     XojPageView* sequenceStartPage = nullptr;
 
+	/**
+	 * Do we need to trigger an ebc global refresh when drawing (at the end of
+	 * pen input)
+	 */
+	bool need_refresh;
 public:
     explicit PenInputHandler(InputContext* inputContext);
     ~PenInputHandler() override;
