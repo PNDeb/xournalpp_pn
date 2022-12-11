@@ -84,7 +84,7 @@ void RenderJob::run() {
     }
 
     // Schedule a repaint of the widget
-    repaintWidget(this->view->getXournal()->getWidget());
+    // repaintWidget(this->view->getXournal()->getWidget());
 }
 
 void RenderJob::renderToBuffer(cairo_surface_t* buffer) const {
