@@ -4,7 +4,7 @@ cd /root/
 
 git clone --branch mw_pinenote https://github.com/m-weigand/xournalpp_pn.git
 
-cd xournalpp
+cd xournalpp_pn
 test -d build && rm -r build
 mkdir build
 cd build
@@ -13,6 +13,4 @@ cd build
 cmake .. -DCPACK_GENERATOR="DEB" ..
 make -j 2
 cmake --build . --target package
-tree
-pwd
 mv packages/*.deb /github/home/
