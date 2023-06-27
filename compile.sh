@@ -2,9 +2,10 @@
 
 cd /root/
 
-git clone --branch mw_pinenote https://github.com/m-weigand/xournalpp_pn.git
-
-cd xournalpp_pn
+# git clone --branch mw_pinenote https://github.com/m-weigand/xournalpp_pn.git
+# cd xournalpp_pn
+git clone https://github.com/xournalpp/xournalpp.git
+cd xournalpp
 test -d build && rm -r build
 mkdir build
 cd build
