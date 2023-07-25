@@ -337,6 +337,7 @@ auto PenInputHandler::actionMotion(InputEvent const& event) -> bool {
 }
 
 auto PenInputHandler::actionEnd(InputEvent const& event) -> bool {
+	/* 
 	if(this->need_refresh){
 		GError *error = NULL;
 		g_subprocess_new(
@@ -351,6 +352,7 @@ auto PenInputHandler::actionEnd(InputEvent const& event) -> bool {
 			NULL
 		);
 	}
+	*/
     GtkXournal* xournal = inputContext->getXournal();
     XournalppCursor* cursor = xournal->view->getCursor();
     ToolHandler* toolHandler = inputContext->getToolHandler();

@@ -84,6 +84,7 @@ auto TouchInputHandler::handleImpl(InputEvent const& event) -> bool {
             this->secondarySequence = nullptr;
         }
 			GError *error = NULL;
+			/* 
                g_subprocess_new(
 				   G_SUBPROCESS_FLAGS_NONE,
 				   &error,
@@ -95,6 +96,7 @@ auto TouchInputHandler::handleImpl(InputEvent const& event) -> bool {
                  	"org.pinenote.ebc.TriggerGlobalRefresh",
                     NULL
                );
+	       */
 
     }
 
