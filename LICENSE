@@ -1,3 +1,14 @@
+The following files are licensed under the LGPL 2.1, taken from
+
+https://salsa.debian.org/gnome-team/gnome-themes-extra/-/blob/debian/master/LICENSE
+
+ui/iconsLucide-light/hicolor/scalable/actions/go-first.svg
+ui/iconsLucide-light/hicolor/scalable/actions/go-last.svg
+ui/iconsLucide-light/hicolor/scalable/actions/go-next.svg
+ui/iconsLucide-light/hicolor/scalable/actions/go-previous.svg
+
+For the rest:
+---------------------------------
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
