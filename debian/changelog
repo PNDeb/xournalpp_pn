@@ -1,6 +1,6 @@
-xournalpp (1.1.2+dev-1) UNRELEASED; urgency=medium
+xournalpp (1.1.2+devpinenote-2) UNRELEASED; urgency=medium
 
-  *
+  * adapt to Pinenote
 
  -- Bryan Tan <bryantan@technius.net>  Sat, 15 Oct 2022 01:00:44 -0700
 
