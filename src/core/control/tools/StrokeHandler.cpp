@@ -71,7 +71,6 @@ void StrokeHandler::draw(cairo_t* cr) {
         cairo_pattern_set_filter(pattern, CAIRO_FILTER_NEAREST);
         cairo_mask(cr, pattern);
         cairo_pattern_destroy(pattern);
-        g_warning("StrokeHandler::draw mask");
     } else {
         if (this->stroke->getPointCount() == 1) {
             // drawStroke does not handle single dots
